@@ -19,7 +19,7 @@ $(TARGET): rpi-fan-ctrl.c
 
 install: $(TARGET)
 	install -d $(DESTDIR)$(PREFIX)/sbin/
-	install -m 644 $(TARGET) $(DESTDIR)$(PREFIX)/sbin/
+	install $(TARGET) $(DESTDIR)$(PREFIX)/sbin/
 
 clean:
 	$(RM) $(TARGET)
