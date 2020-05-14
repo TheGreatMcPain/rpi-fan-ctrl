@@ -71,7 +71,8 @@ int main(int argc, char *argv[]) {
           "is %d)\n",
           temp, maxTemp, minTemp);
       gpioPWM(PIN, 255);
-    } else if (temp < minTemp) {
+    }
+    if (temp < minTemp) {
       printf(
           "CPU Temp is %d. FAN is OFF (Upper Threshold is %d, Lower Threshold "
           "is %d)\n",
