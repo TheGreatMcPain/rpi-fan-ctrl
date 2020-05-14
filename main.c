@@ -48,6 +48,7 @@ int main(int argc, char *argv[]) {
           exit(1);
         }
         sscanf(optarg, "%2d", &minTemp);
+        break;
       case ':':
         help(argv);
         exit(1);
