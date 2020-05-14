@@ -7,19 +7,23 @@ Written in C using the pigpio library.
 
 Make sure you have pigpio installed on your PI.
 
-`$ git clone https://gitlab.com/TheGreatMcPain/rpi-fan-ctrl.git`\
-`$ cd rpi-fan-ctrl`\
-`$ make`\
-`$ sudo make install`
-
-It should install itself to `/usr/local/sbin`, but you can change the default `PREFIX`,
-which is `/usr/local` like this.: `PREFIX=/path/to/prefix make install`
+```
+$ git clone https://gitlab.com/TheGreatMcPain/rpi-fan-ctrl.git
+$ cd rpi-fan-ctrl
+$ meson build
+$ cd build
+$ ninja
+$ sudo ninja install
+```
 
 ## Usage
 
-`# rpi-fan-ctrl <options>`
+```
+# rpi-fan-ctrl <options>
+```
 
 | Option | Description |
 |:------:| ----------- |
 | `-h` | Displays a help message. |
-| `-t <temp>` | The CPU temperature threshold where the fan will turn on, or off. (defaults to 50) |
+| `-u <temp>` | The CPU temperature threshold where the fan will turn on. (defaults to 50) |
+| `-l <temp>` | The CPU temperature threshold where the fan will turn off. (defaults to 30) |

@@ -18,25 +18,36 @@ void stop(int signum);
 
 int main(int argc, char *argv[]) {
   int temp;
+  int minTemp = 30;
   int maxTemp = 50;
   int opt;
 
-  while ((opt = getopt(argc, argv, ":ht:")) != -1) {
+  while ((opt = getopt(argc, argv, ":hu:l:")) != -1) {
     switch (opt) {
       case 'h':
         help(argv);
         exit(1);
-      case 't':
+      case 'u':
         if (!isStrNum(optarg)) {
-          printf("'-t' Input must be an integer.\n");
+          printf("'-u' Input must be an integer.\n");
           exit(1);
         }
         if (strlen(optarg) > 2 && strlen(optarg) < 2) {
-          printf("'-t' Input must be 2 digits.\n");
+          printf("'-u' Input must be 2 digits.\n");
           exit(1);
         }
         sscanf(optarg, "%2d", &maxTemp);
         break;
+      case 'l':
+        if (!isStrNum(optarg)) {
+          printf("'-l' Input must be an integer.\n");
+          exit(1);
+        }
+        if (strlen(optarg) > 2 && strlen(optarg) < 2) {
+          printf("'-l' Input must be 2 digits.\n");
+          exit(1);
+        }
+        sscanf(optarg, "%2d", &minTemp);
       case ':':
         help(argv);
         exit(1);
@@ -54,10 +65,16 @@ int main(int argc, char *argv[]) {
     temp = getTemp();
 
     if (temp > maxTemp) {
-      printf("CPU Temp is %d. FAN is ON (Threshold is %d)\n", temp, maxTemp);
+      printf(
+          "CPU Temp is %d. FAN is ON (Upper Threshold is %d, Lower Threshold "
+          "is %d)\n",
+          temp, maxTemp, minTemp);
       gpioPWM(PIN, 255);
-    } else {
-      printf("CPU Temp is %d. FAN is OFF (Threshold is %d)\n", temp, maxTemp);
+    } else if (temp < minTemp) {
+      printf(
+          "CPU Temp is %d. FAN is OFF (Upper Threshold is %d, Lower Threshold "
+          "is %d)\n",
+          temp, maxTemp, minTemp);
       gpioPWM(PIN, 0);
     }
     sleep(5);
@@ -66,11 +83,14 @@ int main(int argc, char *argv[]) {
 }
 
 void help(char *argv[]) {
-  printf("\nUsage: %s -h,-t <temp>\n\n", argv[0]);
+  printf("\nUsage: %s -h,-u <temp> -l <temp>\n\n", argv[0]);
   printf("    '-h':        Display this help text.\n");
-  printf("    '-t <temp>': The Fan will switch on if the\n");
+  printf("    '-u <temp>': The Fan will switch on if the\n");
   printf("                 CPU tempature goes above this value.");
-  printf(" (default is 50)\n\n");
+  printf("                 (default is 50)\n\n");
+  printf("    '-l <temp>': The Fan will turn off if the\n");
+  printf("                 CPU tempature goes below this value.");
+  printf("                 (default is 30)\n\n");
 }
 
 void stop(int signum) {
