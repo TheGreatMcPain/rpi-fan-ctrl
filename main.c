@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
   int minTemp = 30;
   int maxTemp = 50;
   int opt;
+  bool fanStatus = false;
 
   while ((opt = getopt(argc, argv, ":hu:l:")) != -1) {
     switch (opt) {
@@ -66,18 +67,23 @@ int main(int argc, char *argv[]) {
     temp = getTemp();
 
     if (temp > maxTemp) {
+      fanStatus = true;
+      gpioPWM(PIN, 255);
+    } else if (temp < minTemp) {
+      fanStatus = false;
+      gpioPWM(PIN, 0);
+    }
+
+    if (fanStatus) {
       printf(
           "CPU Temp is %d. FAN is ON (Upper Threshold is %d, Lower Threshold "
           "is %d)\n",
           temp, maxTemp, minTemp);
-      gpioPWM(PIN, 255);
-    }
-    if (temp < minTemp) {
+    } else {
       printf(
           "CPU Temp is %d. FAN is OFF (Upper Threshold is %d, Lower Threshold "
           "is %d)\n",
           temp, maxTemp, minTemp);
-      gpioPWM(PIN, 0);
     }
     sleep(5);
   }
