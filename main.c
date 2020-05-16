@@ -18,7 +18,7 @@ void stop(int signum);
 
 int main(int argc, char *argv[]) {
   int temp;
-  int minTemp = 30;
+  int minTemp = 40;
   int maxTemp = 50;
   int opt;
   bool fanStatus = false;
@@ -98,7 +98,7 @@ void help(char *argv[]) {
   printf("                 (default is 50)\n\n");
   printf("    '-l <temp>': The Fan will turn off if the\n");
   printf("                 CPU tempature goes below this value.");
-  printf("                 (default is 30)\n\n");
+  printf("                 (default is 40)\n\n");
 }
 
 void stop(int signum) {
