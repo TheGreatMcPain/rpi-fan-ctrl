@@ -63,6 +63,7 @@ int main(int argc, char *argv[]) {
 
   gpioSetSignalFunc(SIGINT, stop);
 
+  printf("\n");
   while (true) {
     temp = getTemp();
 
@@ -73,8 +74,6 @@ int main(int argc, char *argv[]) {
       fanStatus = false;
       gpioPWM(PIN, 0);
     }
-
-    printf("TEST\n");
 
     printf(
         "\rCPU Temp is %d. Fan is '%s' (Upper Threshold is %d, Lower "
