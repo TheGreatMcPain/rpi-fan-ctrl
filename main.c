@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 // macros
-#define PIN 18
+#define PIN 18  // GPIO Pin to toggle
 
 // Protos
 void help(char *argv[]);
@@ -74,17 +74,11 @@ int main(int argc, char *argv[]) {
       gpioPWM(PIN, 0);
     }
 
-    if (fanStatus) {
-      printf(
-          "CPU Temp is %d. FAN is ON (Upper Threshold is %d, Lower Threshold "
-          "is %d)\n",
-          temp, maxTemp, minTemp);
-    } else {
-      printf(
-          "CPU Temp is %d. FAN is OFF (Upper Threshold is %d, Lower Threshold "
-          "is %d)\n",
-          temp, maxTemp, minTemp);
-    }
+    printf(
+        "\rCPU Temp is %d. Fan is '%s' (Upper Threshold is %d, Lower Threshold "
+        "is %d)",
+        temp, fanStatus ? "ON" : "OFF", maxTemp, minTemp);
+
     sleep(5);
   }
   return 0;
