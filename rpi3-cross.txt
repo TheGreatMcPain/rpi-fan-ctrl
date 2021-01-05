@@ -1,0 +1,22 @@
+[binaries]
+c = 'armv7a-unknown-linux-gnueabihf-gcc'
+cpp = 'armv7a-unknown-linux-gnueabihf-g++'
+ar = 'armv7a-unknown-linux-gnueabihf-ar'
+strip = 'armv7a-unknown-linux-gnueabihf-strip'
+pkgconfig = 'armv7a-unknown-linux-gnueabihf-pkg-config'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'arm'
+cpu = 'armv7l'
+endian = 'little'
+
+# For some reason clangd won't use the cross compiler's include directories,
+# so I've got to manually include them to the CFLAGS.
+#
+# The '-D__ARM_PCS_VFP' is needed for <ctypes.h>.
+[properties]
+c_args = ['-I/usr/armv7a-unknown-linux-gnueabihf/usr/include', '-D__ARM_PCS_VFP']
+cpp_args = ['-I/usr/armv7a-unknown-linux-gnueabihf/usr/include', '-D__ARM_PCS_VFP']
+
+# vim: ft=dosini
