@@ -63,7 +63,6 @@ int main(int argc, char *argv[]) {
 
   gpioSetSignalFunc(SIGINT, stop);
 
-  printf("\n");
   while (true) {
     temp = getTemp();
 
@@ -81,7 +80,7 @@ int main(int argc, char *argv[]) {
         "is %d)",
         temp, fanStatus ? "ON" : "OFF", maxTemp, minTemp);
 
-    sleep(5);
+    sleep(1);
   }
   return 0;
 }
