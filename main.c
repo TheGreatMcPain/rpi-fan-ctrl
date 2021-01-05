@@ -74,8 +74,11 @@ int main(int argc, char *argv[]) {
       gpioPWM(PIN, 0);
     }
 
+    printf("TEST\n");
+
     printf(
-        "\rCPU Temp is %d. Fan is '%s' (Upper Threshold is %d, Lower Threshold "
+        "\rCPU Temp is %d. Fan is '%s' (Upper Threshold is %d, Lower "
+        "Threshold "
         "is %d)",
         temp, fanStatus ? "ON" : "OFF", maxTemp, minTemp);
 
