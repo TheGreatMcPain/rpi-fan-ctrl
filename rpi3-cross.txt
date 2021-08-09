@@ -15,7 +15,7 @@ endian = 'little'
 # so I've got to manually include them to the CFLAGS.
 #
 # The '-D__ARM_PCS_VFP' is needed for <ctypes.h>.
-[properties]
+[built-in options]
 c_args = ['-I/usr/armv7a-unknown-linux-gnueabihf/usr/include', '-D__ARM_PCS_VFP']
 cpp_args = ['-I/usr/armv7a-unknown-linux-gnueabihf/usr/include', '-D__ARM_PCS_VFP']
 
