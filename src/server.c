@@ -50,7 +50,7 @@ int get_temp() {
 
 void *fan_control_thread() {
   int temp = 0;
-  bool fan_status;
+  bool fan_status = false;
 
   while (true) {
     temp = get_temp();
