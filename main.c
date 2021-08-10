@@ -1,5 +1,3 @@
-#include <pigpio.h>
-#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -95,11 +93,6 @@ int main(int argc, char *argv[]) {
     if (default_min_temp == -1) {
       default_min_temp = DEFAULT_MIN;
     }
-
-    if (gpioInitialise() < 0) return -1;
-
-    gpioSetSignalFunc(SIGINT, server_sig_handler);
-    gpioSetSignalFunc(SIGTERM, server_sig_handler);
 
     server(socket_path, foreground, default_max_temp, default_min_temp);
     return 0;  // not really needed, but just to make sure we exit here.

@@ -1,5 +1,6 @@
 #include "server.h"
 
+#include <signal.h>
 #include <errno.h>
 #include <pigpio.h>
 #include <pthread.h>
@@ -115,12 +116,16 @@ void server(const char *socket_path, bool foreground, int default_max_temp,
   }
 
   // Child will continue here if forked.
-  // Create print_thread
-  int ret;
-  ret = pthread_create(&thread_id, NULL, fan_control_thread, NULL);
-  if (ret) {
-    errno = ret;
-    perror("pthread_create()");
+ 
+  // Initialize pigpio library and setup signal handlers
+  if (gpioInitialise() < 0) {
+    fprintf(stderr, "gpioInitialize() failed\n");
+    exit(1);
+  }
+
+  gpioSetSignalFunc(SIGINT, server_sig_handler);
+  gpioSetSignalFunc(SIGTERM, server_sig_handler);
+
   // Create fan_control_thread
   thread_id = gpioStartThread(fan_control_thread, NULL);
   if (thread_id == NULL) {

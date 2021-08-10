@@ -1,2 +1,0 @@
-%compile_commands.json
-%h %hpp --include=global.h
