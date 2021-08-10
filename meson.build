@@ -4,7 +4,9 @@ libpigpio = meson.get_compiler('c').find_library('pigpio', has_headers: ['pigpio
 threads = dependency('threads')
 
 include_dirs = []
-include_dirs += include_directories('pigpio-headers')
+if not libpigpio.found()
+  include_dirs += include_directories('pigpio-headers')
+endif
 include_dirs += include_directories('src')
 
 src_files = []
