@@ -20,8 +20,7 @@
 static char global_socket_path[256];
 
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_t thread_id;
-static int thread_running = 1;  // Exit thread if 0
+static pthread_t *thread_id;
 
 static char status_buffer[256];
 
@@ -53,13 +52,6 @@ void *fan_control_thread() {
   bool fan_status;
 
   while (true) {
-    pthread_mutex_lock(&lock);
-    if (thread_running == 0) {
-      pthread_mutex_unlock(&lock);
-      return NULL;
-    }
-    pthread_mutex_unlock(&lock);
-
     temp = get_temp();
 
     if (temp < 0) {
@@ -129,6 +121,10 @@ void server(const char *socket_path, bool foreground, int default_max_temp,
   if (ret) {
     errno = ret;
     perror("pthread_create()");
+  // Create fan_control_thread
+  thread_id = gpioStartThread(fan_control_thread, NULL);
+  if (thread_id == NULL) {
+    fprintf(stderr, "Failed to start fan_control_thread via gpioStartThread\n");
     exit(1);
   }
 
@@ -222,10 +218,7 @@ void server_sig_handler(int signum) {
   }
 
   // Stop fan_control_thread
-  pthread_mutex_lock(&lock);
-  thread_running = 0;
-  pthread_mutex_unlock(&lock);
-  pthread_join(thread_id, NULL);
+  gpioStopThread(thread_id);
 
   // Turn off the fan.
   gpioPWM(PIN, 0);
