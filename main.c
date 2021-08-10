@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
           printf("'-u' Input must be an integer.\n");
           exit(1);
         }
-        if (strlen(optarg) > 2 && strlen(optarg) < 2) {
+        if (strlen(optarg) != 2) {
           printf("'-u' Input must be 2 digits.\n");
           exit(1);
         }
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
           printf("'-l' Input must be an integer.\n");
           exit(1);
         }
-        if (strlen(optarg) > 2 && strlen(optarg) < 2) {
+        if (strlen(optarg) != 2) {
           printf("'-l' Input must be 2 digits.\n");
           exit(1);
         }
